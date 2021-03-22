@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const Users = mongoose.model("USERS");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const {JWT_SECRET} = require("../keys")
 
 router.get("/",(req,res)=>{
     res.send("Ram boi!!")
@@ -74,11 +76,16 @@ router.post("/login",(req,res)=>{
                 })
             }
             else{
-                return res.status(200).json({
+                
+
+               const token = jwt.sign({_id:saveduser._id},JWT_SECRET)
+               return res.status(200).json({
                     success:true,
                     msg:"Welcome User",
+                    jwttoken:token,
                     saveduser:saveduser
                 })
+               
             }
         }).catch(err=>{
             console.log(err)
