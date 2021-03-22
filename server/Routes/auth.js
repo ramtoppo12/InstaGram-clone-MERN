@@ -48,4 +48,44 @@ router.post("/signup",(req,res)=>{
     }
 })
 
+
+// login router
+
+router.post("/login",(req,res)=>{
+    const {email,password} = req.body;
+    if(!email||!password){
+        return res.status(422).json({
+            success:false,
+            err:"Invalid user and password"
+        });
+    }
+    Users.findOne({email:email}).then(saveduser=>{
+        if(!saveduser){
+            return res.status(422).json({
+            success:false,
+            err:"Invalid user and password"
+        });
+        }
+        bcrypt.compare(password,saveduser.password).then(domatch=>{
+            if(!domatch){
+                return res.status(422).json({
+                    success:false,
+                    err:"Invalid user and password"
+                })
+            }
+            else{
+                return res.status(200).json({
+                    success:true,
+                    msg:"Welcome User",
+                    saveduser:saveduser
+                })
+            }
+        }).catch(err=>{
+            console.log(err)
+        })
+    }).catch(err=>{
+        console.log(err)
+    })
+})
+
 module.exports = router;
