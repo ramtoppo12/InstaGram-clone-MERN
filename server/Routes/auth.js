@@ -4,11 +4,16 @@ const Users = mongoose.model("USERS");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const {JWT_SECRET} = require("../keys")
+const {JWT_SECRET} = require("../keys");
+const requireLogin = require("../Middleware/requireLogin.js");
 
-router.get("/",(req,res)=>{
-    res.send("Ram boi!!")
-})
+
+
+// createing middleware route to verify the JWT token
+
+
+
+//signUp Route
 
 router.post("/signup",(req,res)=>{
     const {name,email,password} = req.body;

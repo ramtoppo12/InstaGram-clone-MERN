@@ -7,11 +7,7 @@ const { json } = require("body-parser");
 
 
 const app = express();
-app.use(express.json());
 
-require("./Models/user");
-
-app.use(require("./Routes/auth"));
 
 
 
@@ -34,6 +30,14 @@ const connectDB = async () =>{
 connectDB();
 // middleware
 
+app.use(express.json());
+
+require("./Models/user");
+
+require("./Models/post");
+
+app.use(require("./Routes/auth"));
+app.use(require("./Routes/post"));
 
 
 app.listen(PORT,()=>{
